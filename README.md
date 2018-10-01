@@ -1,5 +1,9 @@
 # sense-images-links-extension
 
+**Status**
+
+[![CircleCI](https://circleci.com/gh/qlik-oss/sense-images-links-extension.svg?style=svg)](https://circleci.com/gh/qlik-oss/sense-images-links-extension)
+
 **A simple table modified with conditional logic to detect hyperlinks/images, user controlled by switches.**
 
 This extension is based off of the Simple Table extension, and allows for automatic detection of hyperlinks/images as well as raw HTML input. The conditional logic currently looks for cell values beginning with 'http'/'https' or 'www' for hyperlinks, and searches for 'img.', '.jpg', '.gif', and '.png' for image detection. Detection is controlled by switches, which allows the user to decide if they would like to show links, images, or neither. If both link and image detection is turned on, if an image is detected, it will also turn it into a clickable URL. The option also exists for the user to change the size of the images as well.
