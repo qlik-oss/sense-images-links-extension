@@ -1,13 +1,57 @@
 version: 2
+
+defaults: &defaults
+  working_directory: ~/qlik-image-table
+  docker:
+    - image: circleci/node:stretch
+  environment:
+    GITHUB_ORG: "qlik-oss"
+    GITHUB_REPO: "sense-images-links-extension"
+    PACKAGE_NAME: "qlik-image-table"
+
 jobs:
   build:
-    docker:
-      - image: debian:stretch
+    <<: *defaults
     steps:
       - checkout
       - run:
-          name: Greeting
-          command: echo Hello, world.
+          name: Install dependencies
+          command: npm install
       - run:
-          name: Print the Current Time
-          command: date
+          name: Build and package
+          command: npm run build
+          environment:
+            NODE_ENV: production
+      - persist_to_workspace:
+          root: ~/qlik-image-table
+          paths:
+            - build
+      - store_artifacts:
+          path: build/qlik-image-table.zip
+          destination: qlik-image-table.zip
+  deploy:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/qlik-image-table
+      - run:
+          name: Install ghr
+          command: scripts/install-ghr.sh
+      - run:
+          name: Create GitHub Release
+          command: scripts/create-release.sh $GITHUB_ORG $GITHUB_REPO $PACKAGE_NAME
+
+workflows:
+  version: 2
+  master_flow:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
+                - feature/QPE-178

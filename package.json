@@ -1,0 +1,38 @@
+{
+  "name": "qlik-image-table",
+  "version": "0.0.1",
+  "description": "Qlik Sense Extension Image Table",
+  "keywords": "image table qliksense extension",
+  "repository": "https://github.com/qlik-oss/sense-images-links-extension",
+  "author": "Daniel Pilla <daniel.b.pilla@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "gulp build",
+    "eslint": "eslint src",
+    "eslint:fix": "eslint --fix src",
+    "watch": "webpack --watch",
+    "webpack": "webpack"
+  },
+  "devDependencies": {
+    "@babel/core": "7.1.2",
+    "@babel/preset-env": "7.1.0",
+    "babel-eslint": "10.0.1",
+    "babel-loader": "8.0.4",
+    "copy-webpack-plugin": "4.5.3",
+    "css-loader": "1.0.0",
+    "del": "2.0.2",
+    "eslint": "5.7.0",
+    "eslint-loader": "2.1.1",
+    "gulp": "4.0.0",
+    "gulp-zip": "3.0.2",
+    "style-loader": "0.23.1",
+    "stylelint-webpack-plugin": "0.10.5",
+    "webpack": "4.20.2",
+    "webpack-cli": "3.1.2"
+  },
+  "dependencies": {
+    "jquery": "3.3.1",
+    "requirejs": "2.3.6",
+    "stylelint": "8.4.0"
+  }
+}

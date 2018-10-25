@@ -1,4 +1,4 @@
-# sense-images-links-extension
+# qlik-image-table
 
 **Status**
 
