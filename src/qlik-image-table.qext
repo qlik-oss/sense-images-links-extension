@@ -1,0 +1,16 @@
+{
+  "name": "Image table",
+  "description": "A simple table modified with conditional logic to detect hyperlinks/images, user controlled by switches.",
+  "type" : "visualization",
+  "version": "X.Y.Z",
+  "icon" : "table",
+  "preview": "preview.png",
+  "keywords": "qlik-sense, visualization",
+  "author": "Daniel Pilla",
+  "homepage": "",
+  "license": "MIT",
+  "repository": "",
+  "dependencies": {
+      "qlik-sense": ">=5.5.x"
+  }
+}
