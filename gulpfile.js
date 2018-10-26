@@ -4,6 +4,7 @@ var del = require('del');
 var settings = require('./settings');
 var webpackConfig = require('./webpack.config');
 var webpack = require('webpack');
+var WebpackDevServer = require('webpack-dev-server');
 
 var buildDest = settings.buildDestination;
 var name = settings.name;
@@ -37,6 +38,28 @@ gulp.task('webpack-build', done => {
 gulp.task('build',
   gulp.series('remove-build-folder', 'webpack-build', 'zip-build')
 );
+
+gulp.task('watch', () => new Promise((resolve, reject) => {
+  webpackConfig.entry.unshift('webpack-dev-server/client?http://localhost:' + settings.port);
+  const compiler = webpack(webpackConfig);
+  const originalOutputFileSystem = compiler.outputFileSystem;
+  const devServer = new WebpackDevServer(compiler, {
+    headers: {
+      "Access-Control-Allow-Origin": "*"
+    },
+  }).listen(settings.port, 'localhost', error => {
+    compiler.outputFileSystem = originalOutputFileSystem;
+    if (error) {
+      console.error(error); // eslint-disable-line no-console
+      return reject(error);
+    }
+
+    // eslint-disable-next-line no-console
+    console.log('Listening at localhost:' + settings.port);
+
+    resolve(null, devServer);
+  });
+}));
 
 gulp.task('default',
   gulp.series('build')
