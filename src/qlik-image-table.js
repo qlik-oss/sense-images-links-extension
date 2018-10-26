@@ -1,5 +1,8 @@
-define(["jquery", "text!./qlik-image-table.css"], function($, cssContent) {'use strict';
-  $("<style>").html(cssContent).appendTo("head");
+import './qlik-image-table.less';
+
+define(["module", "jquery"], function(module, $) {
+  'use strict';
+
   return {
     initialProperties : {
       version : 1.0,
@@ -168,7 +171,7 @@ define(["jquery", "text!./qlik-image-table.css"], function($, cssContent) {'use 
           label: 'Image Options',
           type: 'items',
           items : {
-            images : {				
+            images : {
               type: "boolean",
               component: "switch",
               translation: "Enable Embedded Images",
@@ -270,7 +273,7 @@ define(["jquery", "text!./qlik-image-table.css"], function($, cssContent) {'use 
             var labelAddressArray = deriveLabels(cell.qText);
             var label = labelAddressArray[0];
             var address = labelAddressArray[1];
-          
+
             // toggle selectable for links, so that when you click a link, it won't necessarily drill to it
             var selectable = '';
 
@@ -280,15 +283,15 @@ define(["jquery", "text!./qlik-image-table.css"], function($, cssContent) {'use 
             else {
               if( ~address.slice(0,4).toLowerCase()==='http'
                 || ~address.slice(0,3).toLowerCase()==='www'
-                || ~address.toLowerCase().indexOf('.com') 
-                || ~address.toLowerCase().indexOf('.net') 
-                ||~address.toLowerCase().indexOf('.edu') 
+                || ~address.toLowerCase().indexOf('.com')
+                || ~address.toLowerCase().indexOf('.net')
+                ||~address.toLowerCase().indexOf('.edu')
                 || ~address.toLowerCase().indexOf('.org')
                 || ~address.toLowerCase().indexOf('.gov')
-              ) 
+              )
               {
                 selectable = '';
-              } 
+              }
               else {
                 selectable = 'selectable';
               }
@@ -364,7 +367,7 @@ define(["jquery", "text!./qlik-image-table.css"], function($, cssContent) {'use 
             html += '>' + '</td>';
           }
         });
-        html += '</tr>';			    
+        html += '</tr>';
       });
       html += "</tbody></table>";
       $element.html(html);
@@ -378,10 +381,3 @@ define(["jquery", "text!./qlik-image-table.css"], function($, cssContent) {'use 
     }
   };
 });
-
-
-
-
-
-
-
