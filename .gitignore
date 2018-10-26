@@ -20,6 +20,7 @@ $RECYCLE.BIN/
 # Temporary build files
 node_modules/
 build/
+npm-debug.log
 
 # =========================
 # Operating System Files
