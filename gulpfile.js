@@ -1,13 +1,12 @@
 var gulp = require('gulp');
 var zip = require('gulp-zip');
 var del = require('del');
-var path = require('path');
 var settings = require('./settings');
 var webpackConfig = require('./webpack.config');
 var webpack = require('webpack');
+var WebpackDevServer = require('webpack-dev-server');
 
 var buildDest = settings.buildDestination;
-var srcFiles = path.resolve('./src/**/*.*');
 var name = settings.name;
 
 gulp.task('remove-build-folder', function(){
@@ -18,10 +17,6 @@ gulp.task('zip-build', function(){
   return gulp.src(buildDest + '/**/*')
     .pipe(zip(name + '.zip'))
     .pipe(gulp.dest(buildDest));
-});
-
-gulp.task('add-src', function(){
-  return gulp.src(srcFiles).pipe(gulp.dest(buildDest));
 });
 
 gulp.task('webpack-build', done => {
@@ -41,8 +36,30 @@ gulp.task('webpack-build', done => {
 });
 
 gulp.task('build',
-  gulp.series('remove-build-folder', 'add-src', 'zip-build')
+  gulp.series('remove-build-folder', 'webpack-build', 'zip-build')
 );
+
+gulp.task('watch', () => new Promise((resolve, reject) => {
+  webpackConfig.entry.unshift('webpack-dev-server/client?http://localhost:' + settings.port);
+  const compiler = webpack(webpackConfig);
+  const originalOutputFileSystem = compiler.outputFileSystem;
+  const devServer = new WebpackDevServer(compiler, {
+    headers: {
+      "Access-Control-Allow-Origin": "*"
+    },
+  }).listen(settings.port, 'localhost', error => {
+    compiler.outputFileSystem = originalOutputFileSystem;
+    if (error) {
+      console.error(error); // eslint-disable-line no-console
+      return reject(error);
+    }
+
+    // eslint-disable-next-line no-console
+    console.log('Listening at localhost:' + settings.port);
+
+    resolve(null, devServer);
+  });
+}));
 
 gulp.task('default',
   gulp.series('build')

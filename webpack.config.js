@@ -4,9 +4,11 @@ const settings = require('./settings');
 
 console.log('Webpack mode:', settings.mode); // eslint-disable-line no-console
 
-module.exports = {
+const config = {
   devtool: 'source-map',
-  entry: './src/' + settings.name + '.js',
+  entry: [
+    './src/' + settings.name + '.js'
+  ],
   mode: settings.mode,
   output: {
     path: settings.buildDestination,
@@ -17,7 +19,7 @@ module.exports = {
       {
         enforce: "pre",
         test: /\.js$/,
-        exclude: /(node_modules|d3.min.js)/,
+        exclude: /(node_modules)/,
         loader: "eslint-loader",
         options: {
           failOnError: true
@@ -34,8 +36,8 @@ module.exports = {
         }
       },
       {
-        test: /.css$/,
-        use: ['style-loader', 'css-loader']
+        test: /.less$/,
+        use: ['style-loader', 'css-loader', 'less-loader']
       }
     ]
   },
@@ -47,3 +49,5 @@ module.exports = {
     new StyleLintPlugin()
   ]
 };
+
+module.exports = config;
